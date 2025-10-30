@@ -15,11 +15,11 @@ public class PostCreateRequest {
     private String title;
     private String content;
 
-    public static Post toEntity(Long memberId, String title, String content) {
+    public static Post toEntity(PostCreateRequest request) {
         return Post.builder()
-                .memberId(memberId)
-                .title(title)
-                .content(content)
+                .memberId(request.getMemberId())
+                .title(request.getTitle())
+                .content(request.getContent())
                 .build();
     }
 }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PostUpdateRequest {
-    private Long memberId;
     private String title;
     private String content;
 }

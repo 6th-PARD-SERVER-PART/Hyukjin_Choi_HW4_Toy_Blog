@@ -17,9 +17,9 @@ public class MemberCreateRequest {
 
     public static Member toEntity(MemberCreateRequest request){
         return Member.of(
-                request.userName,
-                request.displayName,
-                request.password
+                request.getUserName(),
+                request.getDisplayName(),
+                request.getPassword()
         );
     }
 }

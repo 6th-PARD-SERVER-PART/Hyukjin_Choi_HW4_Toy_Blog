@@ -8,7 +8,11 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "posts")
+@Table(name = "posts",
+        indexes = {
+            @Index(name = "idx_posts_created_at", columnList = "created_at DESC")
+        }
+)
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -34,5 +38,10 @@ public class Post extends BaseEntity{
                 .title(title)
                 .content(content)
                 .build();
+    }
+
+    public void updatePost(String title, String content){
+        this.title = title;
+        this.content = content;
     }
 }

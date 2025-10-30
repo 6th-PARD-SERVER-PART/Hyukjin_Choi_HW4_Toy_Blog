@@ -25,9 +25,6 @@ public class Like extends BaseEntity{
     @Column(nullable = false)
     private Long postId;
 
-    @Column(nullable = false)
-    private boolean liked;
-
     public static Like of(Long memberId, Long postId, boolean liked) {
         return Like.builder()
                 .memberId(memberId)
