@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberDisplayNameUpdateRequest {
+public class MemberRequest {
     private Long memberId;
-    private String displayName;
 }

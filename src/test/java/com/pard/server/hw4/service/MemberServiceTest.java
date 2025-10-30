@@ -45,5 +45,6 @@ class MemberServiceTest {
 
         //then
         assertDoesNotThrow(() -> memberService.createMember(request));
+
     }
 }
