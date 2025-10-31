@@ -1,9 +1,6 @@
 package com.pard.server.hw4.service;
 
-import com.pard.server.hw4.dto.member.MemberCreateRequest;
-import com.pard.server.hw4.dto.member.MemberDetailResponse;
-import com.pard.server.hw4.dto.member.MemberDisplayNameUpdateRequest;
-import com.pard.server.hw4.dto.member.MemberRequest;
+import com.pard.server.hw4.dto.member.*;
 import com.pard.server.hw4.entity.Member;
 import com.pard.server.hw4.repository.MemberRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,6 +25,22 @@ public class MemberService {
     private void validateMember(String userName){
         if(memberRepository.existsByUserName(userName)){
             throw new RuntimeException("이미 사용중인 아이디 입니다.");
+        }
+    }
+
+    public MemberDetailResponse login(MemberLoginRequest request) {
+        System.out.println("로그인 호출");
+        Member member = memberRepository.findByUserName(request.getUserName())
+                .orElseThrow(() -> new EntityNotFoundException("Member Not Found"));
+
+        System.out.println("Member Name: " + member.getUserName());
+        System.out.println("Member Password: " + member.getPassword());
+        System.out.println("Input Password: " + request.getPassword());
+
+        if(member.getPassword().equals(request.getPassword())){
+            return MemberDetailResponse.fromEntity(member);
+        } else {
+            throw new IllegalArgumentException("비밀번호가 올바르지 않습니다.");
         }
     }
 

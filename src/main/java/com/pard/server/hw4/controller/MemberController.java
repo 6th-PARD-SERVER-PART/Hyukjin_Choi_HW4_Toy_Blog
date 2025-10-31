@@ -1,9 +1,6 @@
 package com.pard.server.hw4.controller;
 
-import com.pard.server.hw4.dto.member.MemberCreateRequest;
-import com.pard.server.hw4.dto.member.MemberDetailResponse;
-import com.pard.server.hw4.dto.member.MemberDisplayNameUpdateRequest;
-import com.pard.server.hw4.dto.member.MemberRequest;
+import com.pard.server.hw4.dto.member.*;
 import com.pard.server.hw4.service.MemberService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Tag(name = "Member", description = "Member 관련 API")
 @RestController
-@RequestMapping("/members")
+@RequestMapping("/api/members")
 @RequiredArgsConstructor
 public class MemberController {
     private final MemberService memberService;
@@ -21,6 +18,11 @@ public class MemberController {
     public ResponseEntity<Void> createMember(@RequestBody MemberCreateRequest request){
         memberService.createMember(request);
         return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<MemberDetailResponse> login(@RequestBody MemberLoginRequest request){
+        return ResponseEntity.ok(memberService.login(request));
     }
 
     @PostMapping("/updateName")

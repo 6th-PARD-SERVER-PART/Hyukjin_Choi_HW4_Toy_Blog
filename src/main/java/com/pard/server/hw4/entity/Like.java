@@ -8,7 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 @Entity
-@Table(name = "likes")
+@Table(name = "likes",
+    uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"member_id", "post_id"})
+    }
+)
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -25,10 +30,17 @@ public class Like extends BaseEntity{
     @Column(nullable = false)
     private Long postId;
 
+    @Column(nullable = false)
+    private boolean status = false;
+
     public static Like of(Long memberId, Long postId) {
         return Like.builder()
                 .memberId(memberId)
                 .postId(postId)
                 .build();
+    }
+
+    public void updateStatus(boolean status) {
+        this.status = status;
     }
 }

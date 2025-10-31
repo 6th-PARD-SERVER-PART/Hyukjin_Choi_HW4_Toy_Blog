@@ -1,5 +1,6 @@
 package com.pard.server.hw4.service;
 
+import com.pard.server.hw4.dto.like.LikeResponse;
 import com.pard.server.hw4.dto.post.PostCreateRequest;
 import com.pard.server.hw4.dto.post.PostDetailResponse;
 import com.pard.server.hw4.dto.post.PostScrollResponse;
@@ -51,33 +52,51 @@ public class PostService {
         Member member = memberRepository.findById(post.getMemberId())
                 .orElseThrow(() -> new EntityNotFoundException("Member를 찾을 수 업습니다."));
 
-        Long likes = likeRepository.countByPostId(id);
+        List<LikeResponse> likeResponses = likeRepository.findByPostId(post.getId())
+                .stream()
+                .map(LikeResponse::fromEntity)
+                .toList();
 
-        return PostDetailResponse.fromEntity(post, likes, member);
+        return PostDetailResponse.fromEntity(post, likeResponses, member);
     }
 
-    public PostScrollResponse getPosts(String lastCratedAt, int size){
+    public PostScrollResponse getPosts(String lastCreatedAt, int size){
         LocalDateTime cursor;
-        if (lastCratedAt == null){
+        if (lastCreatedAt == null){
             cursor = LocalDateTime.now();
         } else {
-            cursor = LocalDateTime.parse(lastCratedAt);
+            cursor = LocalDateTime.parse(lastCreatedAt);
         }
+
+        System.out.println("요청 lastCreatedAt = " + lastCreatedAt);
+        System.out.println("커서 = " + cursor);
+
 
         List<Post> posts = postRepository.findByCreatedAtBeforeOrderByCreatedAtDesc(cursor, PageRequest.of(0,size + 1));
 
         boolean hasNext = posts.size() > size;
 
-        List<PostDetailResponse> content = posts.stream()
+        List<PostDetailResponse> contents = posts.stream()
                 .limit(size)
-                .map(post -> PostDetailResponse.fromEntity(
-                        post,
-                        likeRepository.countByPostId(post.getId()),
-                        memberRepository.findById(post.getMemberId())
-                                .orElseThrow(() -> new EntityNotFoundException("Member를 찾을 수 없습니다."))
-                )).
+                .map(post -> {
+                    Member member = memberRepository.findById(post.getMemberId())
+                            .orElseThrow(() -> new EntityNotFoundException("Member를 찾을 수 업습니다."));
+
+                    List<LikeResponse> likeResponses = likeRepository.findByPostId(post.getId())
+                            .stream()
+                            .map(LikeResponse::fromEntity)
+                            .toList();
+
+                    return PostDetailResponse.fromEntity(post, likeResponses, member);
+                }).
                 toList();
 
-        return PostScrollResponse.of(content,hasNext);
+        System.out.println("조회 쿼리 결과 개수 = " + posts.size());
+        System.out.println("내보낼 게시물 id");
+        for (PostDetailResponse content : contents) {
+            System.out.println(content.getId());
+        }
+
+        return PostScrollResponse.of(contents,hasNext);
     }
 }

@@ -24,6 +24,31 @@ repositories {
     mavenCentral()
 }
 
+//node {
+//    version = '18.17.0'
+//    npmVersion = '9.6.7'
+//    download = true
+//}
+//
+//// React 빌드 태스크
+//tasks.register('buildReact', NpmTask) {
+//    dependsOn npmInstall
+//    workingDir = file('src/main/frontend')
+//    args = ['run', 'build']
+//}
+//
+//// React 빌드 파일 복사
+//tasks.register('copyReactBuild', Copy) {
+//    dependsOn buildReact
+//    from 'src/main/frontend/build'
+//    into 'src/main/resources/static'
+//}
+
+//// Spring Boot 빌드 전에 React 빌드 실행
+//processResources {
+//    dependsOn copyReactBuild
+//}
+
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.projectlombok:lombok'
