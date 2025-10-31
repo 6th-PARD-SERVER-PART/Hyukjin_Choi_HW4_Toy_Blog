@@ -14,6 +14,7 @@ import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,7 +32,11 @@ public class PostService {
         postRepository.save(post);
     }
 
+    @Transactional
     public void updatePost(Long id, PostUpdateRequest request) {
+        System.out.println("update posts 호출");
+        System.out.println("새로 들어온 title: " + request.getTitle());
+        System.out.println("새로 들어온 content: " + request.getContent());
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Post를 찾을 수 업습니다."));
 
@@ -68,8 +73,8 @@ public class PostService {
             cursor = LocalDateTime.parse(lastCreatedAt);
         }
 
-        System.out.println("요청 lastCreatedAt = " + lastCreatedAt);
-        System.out.println("커서 = " + cursor);
+//        System.out.println("요청 lastCreatedAt = " + lastCreatedAt);
+//        System.out.println("커서 = " + cursor);
 
 
         List<Post> posts = postRepository.findByCreatedAtBeforeOrderByCreatedAtDesc(cursor, PageRequest.of(0,size + 1));
@@ -91,11 +96,11 @@ public class PostService {
                 }).
                 toList();
 
-        System.out.println("조회 쿼리 결과 개수 = " + posts.size());
-        System.out.println("내보낼 게시물 id");
-        for (PostDetailResponse content : contents) {
-            System.out.println(content.getId());
-        }
+//        System.out.println("조회 쿼리 결과 개수 = " + posts.size());
+//        System.out.println("내보낼 게시물 id");
+//        for (PostDetailResponse content : contents) {
+//            System.out.println(content.getId());
+//        }
 
         return PostScrollResponse.of(contents,hasNext);
     }
