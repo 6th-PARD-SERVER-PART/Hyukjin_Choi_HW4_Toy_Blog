@@ -24,17 +24,20 @@ Claude Max로 짧은 기간 내 프론트를 구현할 수 있는가였습니다
 <p align="center">
   <img src="src/images/로그인페이지_스크린샷.png" width="500"/>
 </p>
+
 - 회원가입 페이지
 <p align="center">
   <img src="src/images/회원가입_페이지_스크린샷.png" width="500"/>
-</p>
+</p>  
+
 - 블로그 홈
 <p align="center">
   <img src="src/images/블로그_홈_스크린샷.png" width="500"/>
-</p>
+</p>  
 <p align="center">
   <img src="src/images/블로그_홈_무한_스크롤_프론트_구현_스크릴샷.png" width="500"/>
-</p>
+</p>  
+
 - CRUD
 <p align="center">
   <img src="src/images/게시글_작성_스크린샷.png" width="500"/>
